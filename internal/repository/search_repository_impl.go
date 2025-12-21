@@ -45,7 +45,32 @@ func (client *queryImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 	return &data, nil
 }
 
-func (client *queryImplementation) GetIndex(query *entity.IndexEntity) {
+func (client *queryImplementation) GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error) {
+	_, cancel := config.NewMeilisearchContext()
+	defer cancel()
+
+	response, err := client.db.GetStats()
+	if err != nil {
+		return nil, err
+	}
+
+	if query.Name != "" {
+		for key, val := range response.Indexes {
+			if key == query.Name {
+				return &meilisearch.Stats{
+					DatabaseSize:     response.DatabaseSize,
+					UsedDatabaseSize: response.UsedDatabaseSize,
+					LastUpdate:       response.LastUpdate,
+					Indexes: map[string]meilisearch.StatsIndex{
+						query.Name: val,
+					},
+				}, nil
+			}
+		}
+		return nil, fmt.Errorf("Index name not found.")
+	}
+
+	return response, nil
 }
 
 func (client *queryImplementation) DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error) {

@@ -8,6 +8,7 @@ import (
 
 type QueryRepository interface {
 	AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error)
+	GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error)
 	DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error)
 }
 

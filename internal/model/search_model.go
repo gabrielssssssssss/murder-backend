@@ -24,6 +24,6 @@ type IndexResult struct {
 	EnqueuedAt time.Time `json:"enqueuedAt"`
 }
 
-type DeleteIndexPayload struct {
+type IndexPayload struct {
 	Index string `json:"index"`
 }

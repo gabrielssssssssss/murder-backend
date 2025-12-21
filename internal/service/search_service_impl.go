@@ -5,6 +5,7 @@ import (
 
 	"github.com/gabrielssssssssss/murder-backend.git/internal/entity"
 	"github.com/gabrielssssssssss/murder-backend.git/internal/model"
+	"github.com/meilisearch/meilisearch-go"
 )
 
 func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
@@ -33,7 +34,24 @@ func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 	return &response, nil
 }
 
-func (query queryServiceimpl) DeleteIndex(request *model.DeleteIndexPayload) (*model.IndexResult, error) {
+func (query queryServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearch.Stats, error) {
+	if request.Index == "" {
+		// return nil, fmt.Errorf("Index name is empty.")
+	}
+
+	input := entity.IndexEntity{
+		Name: request.Index,
+	}
+
+	response, err := query.queryRepository.GetIndex(&input)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (query queryServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.IndexResult, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}

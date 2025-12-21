@@ -46,8 +46,30 @@ func (controller *QueryController) AddIndex(c *gin.Context) {
 	})
 }
 
+func (controller *QueryController) GetIndex(c *gin.Context) {
+	var request = model.IndexPayload{
+		Index: c.Param("id"),
+	}
+
+	response, err := controller.QueryService.GetIndex(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 400,
+			"msg":  "Bad request",
+			"data": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "OK",
+		"data": response,
+	})
+}
+
 func (controller *QueryController) DeleteIndex(c *gin.Context) {
-	var request = model.DeleteIndexPayload{
+	var request = model.IndexPayload{
 		Index: c.Param("id"),
 	}
 
