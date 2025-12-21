@@ -10,7 +10,7 @@ import (
 
 func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
 	if request.Index == "" {
-		return nil, fmt.Errorf("Index or document name is empty.")
+		return nil, fmt.Errorf("Index name is empty.")
 	}
 
 	input := entity.IndexEntity{
@@ -36,7 +36,7 @@ func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 
 func (query queryServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearch.Stats, error) {
 	if request.Index == "" {
-		// return nil, fmt.Errorf("Index name is empty.")
+		return nil, fmt.Errorf("Index name is empty.")
 	}
 
 	input := entity.IndexEntity{
