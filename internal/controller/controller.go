@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/gabrielssssssssss/murder-backend.git/config"
-	"github.com/gabrielssssssssss/murder-backend.git/internal/controller/query"
+	query "github.com/gabrielssssssssss/murder-backend.git/internal/controller/search"
 	"github.com/gabrielssssssssss/murder-backend.git/internal/repository"
 	"github.com/gabrielssssssssss/murder-backend.git/internal/service"
 	"github.com/gin-gonic/gin"
@@ -11,12 +11,12 @@ import (
 func Controller() {
 	databaseMeilisearch := config.NewMeilisearchDatabase()
 
-	queryRepository := repository.NewQueryRepository(databaseMeilisearch)
-	queryService := service.NewQueryService(&queryRepository)
-	queryController := query.NewServiceController(&queryService)
+	searchRepository := repository.NewQueryRepository(databaseMeilisearch)
+	searchService := service.NewQueryService(&searchRepository)
+	searchController := query.NewServiceController(&searchService)
 
 	app := gin.Default()
 	apiGroup := app.Group("/api")
-	queryController.Route(apiGroup)
+	searchController.Route(apiGroup)
 	app.Run(":8080")
 }
