@@ -27,7 +27,7 @@ func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 	})
 
 	response, err := client.db.Index(query.Name).AddDocumentsCsv(body, &meilisearch.CsvDocumentsQuery{
-		PrimaryKey:   "Uuid",
+		PrimaryKey:   "uuid",
 		CsvDelimiter: ";",
 	})
 	if err != nil {
