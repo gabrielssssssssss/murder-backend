@@ -1,17 +1,16 @@
 package model
 
-import "mime/multipart"
+import (
+	"mime/multipart"
+	"time"
+)
 
-type AddDocumentQueryPayload struct {
+type AddIndexPayload struct {
 	Index    string               `form:"index"`
 	Document multipart.FileHeader `form:"document"`
 }
 
-type DelDocumentQueryPayload struct {
-	Index string `json:"index"`
-}
-
-type AddDocumentQueryResponse struct {
+type AddIndexResponse struct {
 	TaskUid    int    `json:"taskUid"`
 	IndexUid   string `json:"indexUid"`
 	Status     string `json:"status"`
@@ -19,4 +18,12 @@ type AddDocumentQueryResponse struct {
 	EnqueuedAt string `json:"enqueuedAt"`
 }
 
-type DeleteDocumentQueryResponse struct{}
+type IndexResult struct {
+	TaskUID    int64     `json:"taskUid"`
+	IndexUID   string    `json:"indexUid"`
+	EnqueuedAt time.Time `json:"enqueuedAt"`
+}
+
+type DeleteIndexPayload struct {
+	Index string `json:"index"`
+}

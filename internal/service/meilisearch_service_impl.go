@@ -7,22 +7,22 @@ import (
 	"github.com/gabrielssssssssss/murder-backend.git/internal/model"
 )
 
-func (query queryServiceimpl) AddDocument(request *model.AddDocumentQueryPayload) (*model.AddDocumentQueryResponse, error) {
+func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index or document name is empty.")
 	}
 
-	input := entity.DocumentEntity{
-		Index:    request.Index,
+	input := entity.IndexEntity{
+		Name:     request.Index,
 		Document: request.Document,
 	}
 
-	documentEntity, err := query.queryRepository.AddDocument(&input)
+	documentEntity, err := query.queryRepository.AddIndex(&input)
 	if err != nil {
 		return nil, err
 	}
 
-	response := model.AddDocumentQueryResponse{
+	response := model.AddIndexResponse{
 		TaskUid:    documentEntity.TaskUid,
 		IndexUid:   documentEntity.IndexUid,
 		Status:     documentEntity.Status,
@@ -33,19 +33,19 @@ func (query queryServiceimpl) AddDocument(request *model.AddDocumentQueryPayload
 	return &response, nil
 }
 
-func (query queryServiceimpl) DelDocument(request *model.DelDocumentQueryPayload) (bool, error) {
+func (query queryServiceimpl) DeleteIndex(request *model.DeleteIndexPayload) (*model.IndexResult, error) {
 	if request.Index == "" {
-		return false, fmt.Errorf("Index name is empty.")
+		return nil, fmt.Errorf("Index name is empty.")
 	}
 
-	input := entity.DocumentEntity{
-		Index: request.Index,
+	input := entity.IndexEntity{
+		Name: request.Index,
 	}
 
-	_, err := query.queryRepository.DelDocument(&input)
+	response, err := query.queryRepository.DeleteIndex(&input)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	return response, nil
 }

@@ -2,7 +2,7 @@ package entity
 
 import "mime/multipart"
 
-type DocumentEntity struct {
-	Index    string
+type IndexEntity struct {
+	Name     string
 	Document multipart.FileHeader
 }

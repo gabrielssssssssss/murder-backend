@@ -10,25 +10,23 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (client *queryImplementation) GetData(element string) {
-	_, cancel := config.NewMeilisearchContext()
-	defer cancel()
-}
-
-func (client *queryImplementation) AddDocument(query *entity.DocumentEntity) (*model.AddDocumentQueryResponse, error) {
+func (client *queryImplementation) AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 
 	csvFile, _ := query.Document.Open()
 	defer csvFile.Close()
 
-	body, _ := io.ReadAll(csvFile)
+	body, err := io.ReadAll(csvFile)
+	if err != nil {
+		return nil, fmt.Errorf("An error occured pending file reading (csv).")
+	}
 
 	client.db.CreateIndex(&meilisearch.IndexConfig{
-		Uid: query.Index,
+		Uid: query.Name,
 	})
 
-	response, err := client.db.Index(query.Index).AddDocumentsCsv(body, &meilisearch.CsvDocumentsQuery{
+	response, err := client.db.Index(query.Name).AddDocumentsCsv(body, &meilisearch.CsvDocumentsQuery{
 		PrimaryKey:   "Uuid",
 		CsvDelimiter: ";",
 	})
@@ -36,7 +34,7 @@ func (client *queryImplementation) AddDocument(query *entity.DocumentEntity) (*m
 		return nil, fmt.Errorf("An error occured pending file upload.")
 	}
 
-	data := model.AddDocumentQueryResponse{
+	data := model.AddIndexResponse{
 		TaskUid:    int(response.TaskUID),
 		IndexUid:   response.IndexUID,
 		Status:     string(response.Status),
@@ -47,16 +45,28 @@ func (client *queryImplementation) AddDocument(query *entity.DocumentEntity) (*m
 	return &data, nil
 }
 
-func (client *queryImplementation) DelDocument(query *entity.DocumentEntity) (bool, error) {
+func (client *queryImplementation) GetIndex(query *entity.IndexEntity) {
+}
+
+func (client *queryImplementation) DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 
-	response, err := client.db.DeleteIndex(query.Index)
+	_, err := client.db.GetIndex(query.Name)
 	if err != nil {
-		return false, fmt.Errorf("An error occured pending index deletion.")
+		return nil, fmt.Errorf("Index name doesn't exist.")
 	}
 
-	fmt.Println(response.Status)
+	response, err := client.db.DeleteIndex(query.Name)
+	if err != nil {
+		return nil, fmt.Errorf("An error occured pending index deletion.")
+	}
 
-	return true, nil
+	data := &model.IndexResult{
+		TaskUID:    response.TaskUID,
+		IndexUID:   response.IndexUID,
+		EnqueuedAt: response.EnqueuedAt,
+	}
+
+	return data, nil
 }

@@ -16,6 +16,7 @@ func Controller() {
 	queryController := query.NewServiceController(&queryService)
 
 	app := gin.Default()
-	queryController.Route(app)
+	apiGroup := app.Group("/api")
+	queryController.Route(apiGroup)
 	app.Run(":8080")
 }

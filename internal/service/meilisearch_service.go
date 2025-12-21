@@ -6,8 +6,8 @@ import (
 )
 
 type QueryService interface {
-	AddDocument(query *model.AddDocumentQueryPayload) (*model.AddDocumentQueryResponse, error)
-	DelDocument(query *model.DelDocumentQueryPayload) (bool, error)
+	AddIndex(query *model.AddIndexPayload) (*model.AddIndexResponse, error)
+	DeleteIndex(query *model.DeleteIndexPayload) (*model.IndexResult, error)
 }
 
 type queryServiceimpl struct {

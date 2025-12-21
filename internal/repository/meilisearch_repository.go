@@ -7,8 +7,8 @@ import (
 )
 
 type QueryRepository interface {
-	AddDocument(query *entity.DocumentEntity) (*model.AddDocumentQueryResponse, error)
-	DelDocument(query *entity.DocumentEntity) (bool, error)
+	AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error)
+	DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error)
 }
 
 type queryImplementation struct {

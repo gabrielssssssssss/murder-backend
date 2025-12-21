@@ -16,8 +16,8 @@ func NewServiceController(QueryService *service.QueryService) QueryController {
 	return QueryController{QueryService: *QueryService}
 }
 
-func (controller *QueryController) AddDocument(c *gin.Context) {
-	var request model.AddDocumentQueryPayload
+func (controller *QueryController) AddIndex(c *gin.Context) {
+	var request model.AddIndexPayload
 
 	err := c.ShouldBind(&request)
 	if err != nil {
@@ -29,7 +29,7 @@ func (controller *QueryController) AddDocument(c *gin.Context) {
 		return
 	}
 
-	response, err := controller.QueryService.AddDocument(&request)
+	response, err := controller.QueryService.AddIndex(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,
@@ -46,25 +46,19 @@ func (controller *QueryController) AddDocument(c *gin.Context) {
 	})
 }
 
-func (controller *QueryController) DelDocument(c *gin.Context) {
-	var request model.DelDocumentQueryPayload
-
-	err := c.ShouldBindBodyWithJSON(&request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": 400,
-			"msg":  "Bad request",
-			"data": err.Error(),
-		})
+func (controller *QueryController) DeleteIndex(c *gin.Context) {
+	var request = model.DeleteIndexPayload{
+		Index: c.Param("id"),
 	}
 
-	response, err := controller.QueryService.DelDocument(&request)
+	response, err := controller.QueryService.DeleteIndex(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,
 			"msg":  "Bad request",
 			"data": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
