@@ -8,15 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type QueryController struct {
-	QueryService service.QueryService
+type IndexController struct {
+	IndexService service.IndexService
 }
 
-func NewServiceController(QueryService *service.QueryService) QueryController {
-	return QueryController{QueryService: *QueryService}
+func NewServiceController(IndexService *service.IndexService) IndexController {
+	return IndexController{IndexService: *IndexService}
 }
 
-func (controller *QueryController) AddIndex(c *gin.Context) {
+func (controller *IndexController) AddIndex(c *gin.Context) {
 	var request model.AddIndexPayload
 
 	err := c.ShouldBind(&request)
@@ -29,7 +29,7 @@ func (controller *QueryController) AddIndex(c *gin.Context) {
 		return
 	}
 
-	response, err := controller.QueryService.AddIndex(&request)
+	response, err := controller.IndexService.AddIndex(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,
@@ -46,12 +46,12 @@ func (controller *QueryController) AddIndex(c *gin.Context) {
 	})
 }
 
-func (controller *QueryController) GetIndex(c *gin.Context) {
+func (controller *IndexController) GetIndex(c *gin.Context) {
 	var request = model.IndexPayload{
 		Index: c.Param("id"),
 	}
 
-	response, err := controller.QueryService.GetIndex(&request)
+	response, err := controller.IndexService.GetIndex(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,
@@ -68,12 +68,12 @@ func (controller *QueryController) GetIndex(c *gin.Context) {
 	})
 }
 
-func (controller *QueryController) DeleteIndex(c *gin.Context) {
+func (controller *IndexController) DeleteIndex(c *gin.Context) {
 	var request = model.IndexPayload{
 		Index: c.Param("id"),
 	}
 
-	response, err := controller.QueryService.DeleteIndex(&request)
+	response, err := controller.IndexService.DeleteIndex(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,

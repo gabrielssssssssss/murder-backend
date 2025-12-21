@@ -8,7 +8,7 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
+func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}
@@ -18,7 +18,7 @@ func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 		Document: request.Document,
 	}
 
-	documentEntity, err := query.queryRepository.AddIndex(&input)
+	documentEntity, err := query.indexRepository.AddIndex(&input)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (query queryServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 	return &response, nil
 }
 
-func (query queryServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearch.Stats, error) {
+func (query indexServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearch.Stats, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}
@@ -43,7 +43,7 @@ func (query queryServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearc
 		Name: request.Index,
 	}
 
-	response, err := query.queryRepository.GetIndex(&input)
+	response, err := query.indexRepository.GetIndex(&input)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (query queryServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearc
 	return response, nil
 }
 
-func (query queryServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.IndexResult, error) {
+func (query indexServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.IndexResult, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}
@@ -60,7 +60,7 @@ func (query queryServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.I
 		Name: request.Index,
 	}
 
-	response, err := query.queryRepository.DeleteIndex(&input)
+	response, err := query.indexRepository.DeleteIndex(&input)
 	if err != nil {
 		return nil, err
 	}

@@ -10,7 +10,7 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (client *queryImplementation) AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error) {
+func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 
@@ -45,7 +45,7 @@ func (client *queryImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 	return &data, nil
 }
 
-func (client *queryImplementation) GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error) {
+func (client *indexImplementation) GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 
@@ -73,7 +73,7 @@ func (client *queryImplementation) GetIndex(query *entity.IndexEntity) (*meilise
 	return response, nil
 }
 
-func (client *queryImplementation) DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error) {
+func (client *indexImplementation) DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 

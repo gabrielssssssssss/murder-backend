@@ -6,18 +6,18 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-type QueryRepository interface {
+type IndexRepository interface {
 	AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error)
 	GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error)
 	DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error)
 }
 
-type queryImplementation struct {
+type indexImplementation struct {
 	db meilisearch.ServiceManager
 }
 
-func NewQueryRepository(client meilisearch.ServiceManager) QueryRepository {
-	return &queryImplementation{
+func NewIndexRepository(client meilisearch.ServiceManager) IndexRepository {
+	return &indexImplementation{
 		db: client,
 	}
 }

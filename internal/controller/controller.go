@@ -11,8 +11,8 @@ import (
 func Controller() {
 	databaseMeilisearch := config.NewMeilisearchDatabase()
 
-	indexRepository := repository.NewQueryRepository(databaseMeilisearch)
-	indexService := service.NewQueryService(&indexRepository)
+	indexRepository := repository.NewIndexRepository(databaseMeilisearch)
+	indexService := service.NewIndexService(&indexRepository)
 	indexController := query.NewServiceController(&indexService)
 
 	app := gin.Default()

@@ -6,18 +6,18 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-type QueryService interface {
+type IndexService interface {
 	AddIndex(query *model.AddIndexPayload) (*model.AddIndexResponse, error)
 	GetIndex(query *model.IndexPayload) (*meilisearch.Stats, error)
 	DeleteIndex(query *model.IndexPayload) (*model.IndexResult, error)
 }
 
-type queryServiceimpl struct {
-	queryRepository repository.QueryRepository
+type indexServiceimpl struct {
+	indexRepository repository.IndexRepository
 }
 
-func NewQueryService(queryRepository *repository.QueryRepository) QueryService {
-	return &queryServiceimpl{
-		queryRepository: *queryRepository,
+func NewIndexService(queryRepository *repository.IndexRepository) IndexService {
+	return &indexServiceimpl{
+		indexRepository: *queryRepository,
 	}
 }
