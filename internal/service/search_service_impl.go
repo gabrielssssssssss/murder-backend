@@ -15,6 +15,7 @@ func (query *searchServiceimpl) Search(request *model.SearchPayload) (*meilisear
 
 	input := entity.SearchEntity{
 		Index:   request.Index,
+		Limit:   request.Limit,
 		Element: request.Element,
 	}
 

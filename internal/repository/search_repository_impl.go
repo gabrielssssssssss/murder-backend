@@ -12,7 +12,7 @@ func (client *searchImplementation) Search(query *entity.SearchEntity) (*meilise
 		queriesPayload = append(queriesPayload, &meilisearch.SearchRequest{
 			IndexUID: index,
 			Query:    query.Element,
-			Limit:    10,
+			Limit:    query.Limit,
 		})
 	}
 
