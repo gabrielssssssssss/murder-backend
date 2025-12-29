@@ -5,11 +5,20 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (client *searchImplementation) Search(query *entity.SearchEntity) (*meilisearch.SearchResponse, error) {
-	searchRes, err := client.db.Index(query.Index).Search(query.Element,
-		&meilisearch.SearchRequest{
-			Limit: 20,
+func (client *searchImplementation) Search(query *entity.SearchEntity) (*meilisearch.MultiSearchResponse, error) {
+	queriesPayload := []*meilisearch.SearchRequest{}
+
+	for _, index := range query.Index {
+		queriesPayload = append(queriesPayload, &meilisearch.SearchRequest{
+			IndexUID: index,
+			Query:    query.Element,
+			Limit:    10,
 		})
+	}
+
+	searchRes, err := client.db.MultiSearch(&meilisearch.MultiSearchRequest{
+		Queries: queriesPayload,
+	})
 
 	if err != nil {
 		return nil, err

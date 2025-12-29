@@ -1,6 +1,6 @@
 package entity
 
 type SearchEntity struct {
-	Index   string
+	Index   []string
 	Element string
 }

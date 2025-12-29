@@ -1,6 +1,6 @@
 package model
 
 type SearchPayload struct {
-	Index   string `form:"index"`
-	Element string `form:"element"`
+	Index   []string `json:"index"`
+	Element string   `json:"element"`
 }
