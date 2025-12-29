@@ -12,7 +12,7 @@ type IndexController struct {
 	IndexService service.IndexService
 }
 
-func NewServiceController(IndexService *service.IndexService) IndexController {
+func NewIndexController(IndexService *service.IndexService) IndexController {
 	return IndexController{IndexService: *IndexService}
 }
 
