@@ -1,16 +1,20 @@
 package repository
 
-import "github.com/meilisearch/meilisearch-go"
+import (
+	"github.com/gabrielssssssssss/murder-backend.git/internal/entity"
+	"github.com/meilisearch/meilisearch-go"
+)
 
 type SearchRepository interface {
+	Search(query *entity.SearchEntity) (*meilisearch.SearchResponse, error)
 }
 
 type searchImplementation struct {
 	db meilisearch.ServiceManager
 }
 
-// func NewSearchRepository(client meilisearch.ServiceManager) {
-// 	return &searchImplementation{
-// 		db: client,
-// 	}
-// }
+func NewSearchRepository(client meilisearch.ServiceManager) SearchRepository {
+	return &searchImplementation{
+		db: client,
+	}
+}
