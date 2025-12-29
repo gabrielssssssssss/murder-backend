@@ -14,4 +14,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o murder-backend ./cmd/murder/main.go
 
 RUN curl -L https://install.meilisearch.com | sh
 
-CMD sh -c "./murder-backend & exec ./meilisearch --http-payload-size-limit 10737418240 --master-key=murder"
+CMD sh -c "./murder-backend & exec ./meilisearch --http-payload-size-limit 53687091200 --master-key=murder"
