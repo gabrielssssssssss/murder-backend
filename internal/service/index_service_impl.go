@@ -14,8 +14,10 @@ func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 	}
 
 	input := entity.IndexEntity{
-		Name:     request.Index,
-		Document: request.Document,
+		Name:       request.Index,
+		Delimiter:  request.Delimiter,
+		PrimaryKey: request.PrimaryKey,
+		Document:   request.Document,
 	}
 
 	documentEntity, err := query.indexRepository.AddIndex(&input)

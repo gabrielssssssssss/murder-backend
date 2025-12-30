@@ -6,8 +6,10 @@ import (
 )
 
 type AddIndexPayload struct {
-	Index    string               `form:"index"`
-	Document multipart.FileHeader `form:"document"`
+	Index      string               `form:"index"`
+	Delimiter  string               `form:"delimiter"`
+	PrimaryKey string               `form:"primaryKey"`
+	Document   multipart.FileHeader `form:"document"`
 }
 
 type AddIndexResponse struct {

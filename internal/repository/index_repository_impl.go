@@ -27,8 +27,8 @@ func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 	})
 
 	response, err := client.db.Index(query.Name).AddDocumentsCsv(body, &meilisearch.CsvDocumentsQuery{
-		PrimaryKey:   "uuid",
-		CsvDelimiter: ";",
+		PrimaryKey:   query.PrimaryKey,
+		CsvDelimiter: query.Delimiter,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("An error occured pending file upload.")
