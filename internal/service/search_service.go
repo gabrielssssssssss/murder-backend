@@ -7,7 +7,7 @@ import (
 )
 
 type SearchService interface {
-	Search(query *model.SearchPayload) (*meilisearch.MultiSearchResponse, error)
+	Search(query *model.SearchPayload) ([]meilisearch.SearchResponse, error)
 }
 
 type searchServiceimpl struct {

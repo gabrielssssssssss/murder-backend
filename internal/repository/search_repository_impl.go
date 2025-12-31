@@ -1,28 +1,46 @@
 package repository
 
 import (
+	"sync"
+
 	"github.com/gabrielssssssssss/murder-backend.git/internal/entity"
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (client *searchImplementation) Search(query *entity.SearchEntity) (*meilisearch.MultiSearchResponse, error) {
-	queriesPayload := []*meilisearch.SearchRequest{}
+func (client *searchImplementation) Search(query *entity.SearchEntity) ([]meilisearch.SearchResponse, error) {
+	var (
+		wg       sync.WaitGroup
+		results  = make(chan meilisearch.SearchResponse, len(query.Index))
+		response []meilisearch.SearchResponse
+	)
 
 	for _, index := range query.Index {
-		queriesPayload = append(queriesPayload, &meilisearch.SearchRequest{
-			IndexUID: index,
-			Query:    query.Element,
-			Limit:    query.Limit,
-		})
+		wg.Add(1)
+
+		go func() {
+			defer wg.Done()
+
+			searchRes, err := client.db.Index(index).Search(
+				query.Element, &meilisearch.SearchRequest{
+					Limit: query.Limit,
+				},
+			)
+
+			if err != nil {
+				return
+			}
+			results <- *searchRes
+		}()
 	}
 
-	searchRes, err := client.db.MultiSearch(&meilisearch.MultiSearchRequest{
-		Queries: queriesPayload,
-	})
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
 
-	if err != nil {
-		return nil, err
+	for res := range results {
+		response = append(response, res)
 	}
 
-	return searchRes, nil
+	return response, nil
 }

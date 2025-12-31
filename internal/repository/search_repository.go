@@ -6,7 +6,7 @@ import (
 )
 
 type SearchRepository interface {
-	Search(query *entity.SearchEntity) (*meilisearch.MultiSearchResponse, error)
+	Search(query *entity.SearchEntity) ([]meilisearch.SearchResponse, error)
 }
 
 type searchImplementation struct {

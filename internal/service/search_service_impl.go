@@ -8,7 +8,7 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (query *searchServiceimpl) Search(request *model.SearchPayload) (*meilisearch.MultiSearchResponse, error) {
+func (query *searchServiceimpl) Search(request *model.SearchPayload) ([]meilisearch.SearchResponse, error) {
 	if request.Element == "" || request.Index == nil {
 		return nil, fmt.Errorf("Index or element is empty.")
 	}
