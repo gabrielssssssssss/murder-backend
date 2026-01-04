@@ -69,3 +69,20 @@ func (query indexServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.I
 
 	return response, nil
 }
+
+func (query indexServiceimpl) GetSettings(request *model.IndexPayload) (*meilisearch.Settings, error) {
+	if request.Index == "" {
+		return nil, fmt.Errorf("Index name is empty.")
+	}
+
+	input := entity.IndexEntity{
+		Name: request.Index,
+	}
+
+	response, err := query.indexRepository.GetSettings(&input)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}

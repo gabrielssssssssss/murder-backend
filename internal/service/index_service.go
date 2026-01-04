@@ -10,6 +10,7 @@ type IndexService interface {
 	AddIndex(query *model.AddIndexPayload) (*model.AddIndexResponse, error)
 	GetIndex(query *model.IndexPayload) (*meilisearch.Stats, error)
 	DeleteIndex(query *model.IndexPayload) (*model.IndexResult, error)
+	GetSettings(query *model.IndexPayload) (*meilisearch.Settings, error)
 }
 
 type indexServiceimpl struct {

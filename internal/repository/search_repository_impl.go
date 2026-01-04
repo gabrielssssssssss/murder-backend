@@ -29,6 +29,7 @@ func (client *searchImplementation) Search(query *entity.SearchEntity) ([]meilis
 			if err != nil {
 				return
 			}
+
 			results <- *searchRes
 		}()
 	}

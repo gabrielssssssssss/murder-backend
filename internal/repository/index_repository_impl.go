@@ -95,3 +95,15 @@ func (client *indexImplementation) DeleteIndex(query *entity.IndexEntity) (*mode
 
 	return data, nil
 }
+
+func (client *indexImplementation) GetSettings(query *entity.IndexEntity) (*meilisearch.Settings, error) {
+	_, cancel := config.NewMeilisearchContext()
+	defer cancel()
+
+	response, err := client.db.Index(query.Name).GetSettings()
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}

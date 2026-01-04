@@ -9,4 +9,6 @@ func (controller *IndexController) Route(rg *gin.RouterGroup) {
 	rg.GET("/index", controller.GetIndex)
 	rg.GET("/index/:id", controller.GetIndex)
 	rg.DELETE("/index/:id", controller.DeleteIndex)
+	rg.DELETE("/index/:id/settings", controller.GetSettings)
+
 }
