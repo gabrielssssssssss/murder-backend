@@ -5,10 +5,10 @@ import (
 )
 
 func (controller *IndexController) Route(rg *gin.RouterGroup) {
-	rg.POST("/index", controller.AddIndex)
+	rg.POST("/index", controller.NewIndex)
 	rg.GET("/index", controller.GetIndex)
 	rg.GET("/index/:id", controller.GetIndex)
+	rg.POST("/index/:id", controller.AddIndex)
 	rg.DELETE("/index/:id", controller.DeleteIndex)
-	rg.DELETE("/index/:id/settings", controller.GetSettings)
-
+	rg.GET("/index/:id/settings", controller.GetSettings)
 }

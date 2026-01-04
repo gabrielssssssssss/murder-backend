@@ -7,7 +7,8 @@ import (
 )
 
 type IndexService interface {
-	AddIndex(query *model.AddIndexPayload) (*model.AddIndexResponse, error)
+	NewIndex(query *model.IndexPayload) (*model.TaskInfo, error)
+	AddIndex(query *model.AddIndexPayload) (*model.TaskInfo, error)
 	GetIndex(query *model.IndexPayload) (*meilisearch.Stats, error)
 	DeleteIndex(query *model.IndexPayload) (*model.IndexResult, error)
 	GetSettings(query *model.IndexPayload) (*meilisearch.Settings, error)

@@ -12,7 +12,7 @@ type AddIndexPayload struct {
 	Document   multipart.FileHeader `form:"document"`
 }
 
-type AddIndexResponse struct {
+type TaskInfo struct {
 	TaskUid    int    `json:"taskUid"`
 	IndexUid   string `json:"indexUid"`
 	Status     string `json:"status"`

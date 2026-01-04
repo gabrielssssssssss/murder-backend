@@ -8,7 +8,24 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.AddIndexResponse, error) {
+func (query indexServiceimpl) NewIndex(request *model.IndexPayload) (*model.TaskInfo, error) {
+	if request.Index == "" {
+		return nil, fmt.Errorf("Index name is empty.")
+	}
+
+	input := entity.IndexEntity{
+		Name: request.Index,
+	}
+
+	response, err := query.indexRepository.NewIndex(&input)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.TaskInfo, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}
@@ -25,7 +42,7 @@ func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.A
 		return nil, err
 	}
 
-	response := model.AddIndexResponse{
+	response := model.TaskInfo{
 		TaskUid:    documentEntity.TaskUid,
 		IndexUid:   documentEntity.IndexUid,
 		Status:     documentEntity.Status,

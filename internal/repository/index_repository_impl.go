@@ -10,7 +10,30 @@ import (
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.AddIndexResponse, error) {
+func (client *indexImplementation) NewIndex(query *entity.IndexEntity) (*model.TaskInfo, error) {
+	_, cancel := config.NewMeilisearchContext()
+	defer cancel()
+
+	response, err := client.db.CreateIndex(&meilisearch.IndexConfig{
+		Uid: query.Name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	data := model.TaskInfo{
+		TaskUid:    int(response.TaskUID),
+		IndexUid:   response.IndexUID,
+		Status:     string(response.Status),
+		Type:       string(response.Type),
+		EnqueuedAt: response.EnqueuedAt.String(),
+	}
+
+	return &data, nil
+}
+
+func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.TaskInfo, error) {
 	_, cancel := config.NewMeilisearchContext()
 	defer cancel()
 
@@ -22,10 +45,6 @@ func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 		return nil, fmt.Errorf("An error occured pending file reading (csv).")
 	}
 
-	client.db.CreateIndex(&meilisearch.IndexConfig{
-		Uid: query.Name,
-	})
-
 	response, err := client.db.Index(query.Name).AddDocumentsCsv(body, &meilisearch.CsvDocumentsQuery{
 		PrimaryKey:   query.PrimaryKey,
 		CsvDelimiter: query.Delimiter,
@@ -34,7 +53,7 @@ func (client *indexImplementation) AddIndex(query *entity.IndexEntity) (*model.A
 		return nil, fmt.Errorf("An error occured pending file upload.")
 	}
 
-	data := model.AddIndexResponse{
+	data := model.TaskInfo{
 		TaskUid:    int(response.TaskUID),
 		IndexUid:   response.IndexUID,
 		Status:     string(response.Status),
