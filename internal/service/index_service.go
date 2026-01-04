@@ -10,7 +10,7 @@ type IndexService interface {
 	NewIndex(query *model.IndexPayload) (*model.TaskInfo, error)
 	AddIndex(query *model.AddIndexPayload) (*model.TaskInfo, error)
 	GetIndex(query *model.IndexPayload) (*meilisearch.Stats, error)
-	DeleteIndex(query *model.IndexPayload) (*model.IndexResult, error)
+	DeleteIndex(query *model.IndexPayload) (*model.TaskInfo, error)
 	GetSettings(query *model.IndexPayload) (*meilisearch.Settings, error)
 }
 

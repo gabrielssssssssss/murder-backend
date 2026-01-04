@@ -2,7 +2,6 @@ package model
 
 import (
 	"mime/multipart"
-	"time"
 )
 
 type AddIndexPayload struct {
@@ -18,12 +17,6 @@ type TaskInfo struct {
 	Status     string `json:"status"`
 	Type       string `json:"type"`
 	EnqueuedAt string `json:"enqueuedAt"`
-}
-
-type IndexResult struct {
-	TaskUID    int64     `json:"taskUid"`
-	IndexUID   string    `json:"indexUid"`
-	EnqueuedAt time.Time `json:"enqueuedAt"`
 }
 
 type IndexPayload struct {

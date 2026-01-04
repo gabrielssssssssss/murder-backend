@@ -70,7 +70,7 @@ func (query indexServiceimpl) GetIndex(request *model.IndexPayload) (*meilisearc
 	return response, nil
 }
 
-func (query indexServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.IndexResult, error) {
+func (query indexServiceimpl) DeleteIndex(request *model.IndexPayload) (*model.TaskInfo, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}

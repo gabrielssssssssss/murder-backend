@@ -10,7 +10,7 @@ type IndexRepository interface {
 	NewIndex(query *entity.IndexEntity) (*model.TaskInfo, error)
 	AddIndex(query *entity.IndexEntity) (*model.TaskInfo, error)
 	GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error)
-	DeleteIndex(query *entity.IndexEntity) (*model.IndexResult, error)
+	DeleteIndex(query *entity.IndexEntity) (*model.TaskInfo, error)
 	GetSettings(query *entity.IndexEntity) (*meilisearch.Settings, error)
 }
 
