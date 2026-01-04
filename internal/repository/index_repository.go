@@ -12,6 +12,7 @@ type IndexRepository interface {
 	GetIndex(query *entity.IndexEntity) (*meilisearch.Stats, error)
 	DeleteIndex(query *entity.IndexEntity) (*model.TaskInfo, error)
 	GetSettings(query *entity.IndexEntity) (*meilisearch.Settings, error)
+	UpdateSettings(query *entity.IndexEntity) (*model.TaskInfo, error)
 }
 
 type indexImplementation struct {

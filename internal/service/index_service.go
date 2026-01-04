@@ -8,10 +8,11 @@ import (
 
 type IndexService interface {
 	NewIndex(query *model.IndexPayload) (*model.TaskInfo, error)
-	AddIndex(query *model.AddIndexPayload) (*model.TaskInfo, error)
+	AddIndex(query *model.IndexPayload) (*model.TaskInfo, error)
 	GetIndex(query *model.IndexPayload) (*meilisearch.Stats, error)
 	DeleteIndex(query *model.IndexPayload) (*model.TaskInfo, error)
 	GetSettings(query *model.IndexPayload) (*meilisearch.Settings, error)
+	UpdateSettings(query *model.IndexPayload) (*model.TaskInfo, error)
 }
 
 type indexServiceimpl struct {

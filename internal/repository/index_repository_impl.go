@@ -130,60 +130,8 @@ func (client *indexImplementation) GetSettings(query *entity.IndexEntity) (*meil
 }
 
 func (client *indexImplementation) UpdateSettings(query *entity.IndexEntity) (*model.TaskInfo, error) {
-	distinctAttribute := "movie_id"
-	settings := meilisearch.Settings{
-		RankingRules: []string{
-			"words",
-			"typo",
-			"proximity",
-			"attribute",
-			"sort",
-			"exactness",
-			"release_date:desc",
-			"rank:desc",
-		},
-		DistinctAttribute: &distinctAttribute,
-		SearchableAttributes: []string{
-			"title",
-			"overview",
-			"genres",
-		},
-		DisplayedAttributes: []string{
-			"title",
-			"overview",
-			"genres",
-			"release_date",
-		},
-		StopWords: []string{
-			"the",
-			"a",
-			"an",
-		},
-		SortableAttributes: []string{
-			"title",
-			"release_date",
-		},
-		Synonyms: map[string][]string{
-			"wolverine": []string{"xmen", "logan"},
-			"logan":     []string{"wolverine"},
-		},
-		TypoTolerance: &meilisearch.TypoTolerance{
-			MinWordSizeForTypos: meilisearch.MinWordSizeForTypos{
-				OneTypo:  8,
-				TwoTypos: 10,
-			},
-			DisableOnAttributes: []string{"title"},
-		},
-		Pagination: &meilisearch.Pagination{
-			MaxTotalHits: 5000,
-		},
-		Faceting: &meilisearch.Faceting{
-			MaxValuesPerFacet: 200,
-		},
-		SearchCutoffMs: 150,
-	}
-
-	response, err := client.db.Index("movies").UpdateSettings(&settings)
+	fmt.Println(query.Settings.SearchableAttributes)
+	response, err := client.db.Index(query.Name).UpdateSettings(&query.Settings)
 	if err != nil {
 		return nil, err
 	}

@@ -2,14 +2,9 @@ package model
 
 import (
 	"mime/multipart"
-)
 
-type AddIndexPayload struct {
-	Index      string               `form:"index"`
-	Delimiter  string               `form:"delimiter"`
-	PrimaryKey string               `form:"primaryKey"`
-	Document   multipart.FileHeader `form:"document"`
-}
+	"github.com/meilisearch/meilisearch-go"
+)
 
 type TaskInfo struct {
 	TaskUid    int    `json:"taskUid"`
@@ -20,5 +15,9 @@ type TaskInfo struct {
 }
 
 type IndexPayload struct {
-	Index string `json:"index"`
+	Index      string               `json:"index"`
+	Delimiter  string               `form:"delimiter"`
+	PrimaryKey string               `form:"primaryKey"`
+	Document   multipart.FileHeader `form:"document"`
+	Settings   meilisearch.Settings `json:"settings"`
 }

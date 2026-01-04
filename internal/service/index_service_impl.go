@@ -25,7 +25,7 @@ func (query indexServiceimpl) NewIndex(request *model.IndexPayload) (*model.Task
 	return response, nil
 }
 
-func (query indexServiceimpl) AddIndex(request *model.AddIndexPayload) (*model.TaskInfo, error) {
+func (query indexServiceimpl) AddIndex(request *model.IndexPayload) (*model.TaskInfo, error) {
 	if request.Index == "" {
 		return nil, fmt.Errorf("Index name is empty.")
 	}
@@ -97,6 +97,24 @@ func (query indexServiceimpl) GetSettings(request *model.IndexPayload) (*meilise
 	}
 
 	response, err := query.indexRepository.GetSettings(&input)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (query indexServiceimpl) UpdateSettings(request *model.IndexPayload) (*model.TaskInfo, error) {
+	if request.Index == "" {
+		return nil, fmt.Errorf("Index name is empty.")
+	}
+
+	input := entity.IndexEntity{
+		Name:     request.Index,
+		Settings: request.Settings,
+	}
+
+	response, err := query.indexRepository.UpdateSettings(&input)
 	if err != nil {
 		return nil, err
 	}

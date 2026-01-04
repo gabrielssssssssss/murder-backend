@@ -47,7 +47,7 @@ func (controller *IndexController) NewIndex(c *gin.Context) {
 }
 
 func (controller *IndexController) AddIndex(c *gin.Context) {
-	var request = model.AddIndexPayload{
+	var request = model.IndexPayload{
 		Index: c.Param("id"),
 	}
 
@@ -128,6 +128,38 @@ func (controller *IndexController) GetSettings(c *gin.Context) {
 	}
 
 	response, err := controller.IndexService.GetSettings(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 400,
+			"msg":  "Bad request",
+			"data": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "OK",
+		"data": response,
+	})
+}
+
+func (controller *IndexController) UpdateSettings(c *gin.Context) {
+	var request = model.IndexPayload{
+		Index: c.Param("id"),
+	}
+
+	err := c.ShouldBindJSON(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 400,
+			"msg":  "Bad request",
+			"data": err.Error(),
+		})
+		return
+	}
+
+	response, err := controller.IndexService.UpdateSettings(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code": 400,

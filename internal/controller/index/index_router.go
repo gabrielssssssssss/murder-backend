@@ -11,4 +11,5 @@ func (controller *IndexController) Route(rg *gin.RouterGroup) {
 	rg.POST("/index/:id", controller.AddIndex)
 	rg.DELETE("/index/:id", controller.DeleteIndex)
 	rg.GET("/index/:id/settings", controller.GetSettings)
+	rg.PATCH("/index/:id/settings", controller.UpdateSettings)
 }
